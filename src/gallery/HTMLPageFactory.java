@@ -1,3 +1,5 @@
+package gallery;
+
 import java.io.File;
 
 /**
