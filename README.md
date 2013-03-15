@@ -8,4 +8,4 @@ Auf diesen HTML-Seiten soll das Bild eingebunden, sowie das vorherige und nachfo
 
 Wichtig: ExceptionHandling, OOP
 
-![Tafelbild](http://theta.g18.de/moodle/mod/assignment/view.php?id=20430)
+![Tafelbild](FOTO.JPG)
