@@ -13,11 +13,20 @@ public class DirectoryManager {
 
     File directory;
 
+    /**
+     * construct with absolute system name
+     * @param directoryPath
+     */
     public DirectoryManager(String directoryPath) {
-
         this.directory = new File(directoryPath);
     }
 
+    /**
+     *
+     * @param extensions
+     * @return List<String>
+     * @throws DirectoryEmptyException
+     */
     public List<String> filterByExtension(String[] extensions) throws DirectoryEmptyException {
         String[] files = this.directory.list();
 
@@ -25,16 +34,17 @@ public class DirectoryManager {
             throw new DirectoryEmptyException();
         }
 
-        List<String> pictures = new ArrayList<String>();
+        List<String> images = new ArrayList<String>();
 
+        //Paths for each image are written into ArrayList
         for (String filePath : files) {
             for (String ending : extensions) {
                 if (filePath.endsWith(ending)) {
-                    pictures.add(filePath);
+                    images.add(filePath);
                     break;
                 }
             }
         }
-        return pictures;
+        return images;
     }
 }

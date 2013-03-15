@@ -13,7 +13,10 @@ public class Main {
 
     public static void main(String[] args) {
 
+        // Get image path by user input
         String imagePath = getImagePath();
+
+        //define file extensions
         String[] extensions = new String[] {"jpg", "png", "gif"};
 
         List<String> images = getDirectoryFiles(imagePath, extensions);
@@ -27,16 +30,27 @@ public class Main {
         factory.createHTMLPage(imagePaths, imagePath);
     }
 
+    /**
+     * @return String
+     */
     private static String getImagePath() {
         System.out.println("Please enter your image path");
         Scanner scanner = new Scanner(System.in);
         String imagePath = scanner.next();
+
+        //default path
         if (imagePath.isEmpty()) {
-            imagePath = "../../htdocs/myfoto";
+            imagePath = "~/htdocs/myfoto";
         }
         return imagePath;
     }
 
+    /**
+     *
+     * @param imagePath
+     * @param extensions
+     * @return List<String>
+     */
     private static List<String> getDirectoryFiles(String imagePath, String[] extensions) {
         List<String> images;
         try {
@@ -47,6 +61,7 @@ public class Main {
             e.getMessage();
             System.out.println("Please try another path");
             String newImagePath = getImagePath();
+            // recursive call
             images = getDirectoryFiles(newImagePath, extensions);
         }
         return images;

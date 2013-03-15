@@ -8,26 +8,30 @@ import java.io.File;
  */
 public class HTMLPageFactory {
 
-    public HTMLPage[] createHTMLPage(String[] pictures, String path) {
-        HTMLPage[] pages = new HTMLPage[pictures.length];
+    public void createHTMLPage(String[] images, String path) {
+        //create new folder in imagePath "mypage"
         new File(path + "/mypage").mkdir();
 
-        for(int i = 0; i < pictures.length; i++) {
+        //for each image
+        for(int i = 0; i < images.length; i++) {
             HTMLPage page = new HTMLPage();
-            page.setPageName("Picture " + (i+1));
+            //create generic names
+            page.setPageName("image " + (i+1));
 
+            //not on first iteration
             if(0 != i) {
-                page.setLastPage("Picture " + (i));
-            }
-            page.setPicture(pictures[i]);
-
-            if((pictures.length - 1) != i) {
-                page.setNextPage("Picture " + (i+2));
+                page.setLastPage("image " + (i));
             }
 
-            pages[i] = page;
+            page.setImage(images[i]);
+
+            //not on last iteration
+            if((images.length - 1) != i) {
+                page.setNextPage("image " + (i+2));
+            }
+
+            //create HTML pages in above created folder
             page.render(path + "/mypage/");
         }
-        return pages;
     }
 }

@@ -15,18 +15,19 @@ public class HTMLPage {
     private String template;
     private String pageName;
     private String lastPage;
-    private String picture;
+    private String image;
     private String nextPage;
     private String html;
 
+    // default template
     public HTMLPage() {
         this.template = "<html>" +
-                            "<head><div align='center'>!!pageName!!</div></head>" +
+                            "<head><title>!!pageName!!</title></head>" +
                                 "<body>" +
                                     "<div align='center'><table>" +
                                         "<tr>" +
                                             "<th>!!lastPage!!</th>" +
-                                            "<th>!!picture!!</th>" +
+                                            "<th>!!image!!</th>" +
                                             "<th>!!nextPage!!</th>" +
                                         "</tr>" +
                                 "</table></div>" +
@@ -38,19 +39,24 @@ public class HTMLPage {
         this.pageName = pageName;
     }
 
+    //build link to last image
     public void setLastPage(String lastPage) {
         this.lastPage = "<a href='" + lastPage + ".html'>" + lastPage + "</a>";
     }
 
+    //build link to next image
     public void setNextPage(String nextPage) {
         this.nextPage = "<a href='" + nextPage + ".html'>" + nextPage + "</a>";
     }
 
-    public void setPicture(String picturePath) {
-        this.picture = "<img src='../" + picturePath + "'></img>";
+    //build image tags for image
+    public void setImage(String imagePath) {
+        this.image = "<img src='../" + imagePath + "'></img>";
     }
 
     protected void render(String path) {
+        //replace placeholders with built elements
+
         this.html = this.template.replaceAll("!!pageName!!", this.pageName);
 
         if(this.lastPage != null) {
@@ -59,20 +65,25 @@ public class HTMLPage {
             this.html = this.html.replaceAll("!!lastPage!!", "");
         }
 
-        this.html = this.html.replaceAll("!!picture!!", this.picture);
+        this.html = this.html.replaceAll("!!image!!", this.image);
 
         if(this.nextPage != null) {
             this.html = this.html.replaceAll("!!nextPage!!", this.nextPage);
         } else {
             this.html = this.html.replaceAll("!!nextPage!!", "");
         }
+        //
 
         try {
+            //create HTML file
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(path + this.pageName + ".html"));
+            //insert markup
             bufferedWriter.write(this.html);
+            //close buffer
             bufferedWriter.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            e.getMessage();
+            System.out.println(this.pageName + ".html could not be created");
         }
 
     }
