@@ -7,3 +7,5 @@ Ein "Script" in Java soll für alle Dateien mit der Endung "jpg", "gif", oder "p
 Auf diesen HTML-Seiten soll das Bild eingebunden, sowie das vorherige und nachfolgende Bild verlinkt sein.
 
 Wichtig: ExceptionHandling, OOP
+
+![Tafelbild](http://theta.g18.de/moodle/mod/assignment/view.php?id=20430)
