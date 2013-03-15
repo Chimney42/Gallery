@@ -8,4 +8,4 @@ Auf diesen HTML-Seiten soll das Bild eingebunden, sowie das vorherige und nachfo
 
 Wichtig: ExceptionHandling, OOP
 
-![Tafelbild](FOTO.JPG)
+![Tafelbild](Foto.JPG)
