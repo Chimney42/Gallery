@@ -1,4 +1,5 @@
-package gallery; /**
+package gallery;
+/**
  * Author: lian
  * Date: 3/10/13
  */
@@ -15,19 +16,19 @@ public class DirectoryManager {
 
     /**
      * construct with absolute system name
-     * @param directoryPath
+     * @param sourcePath
      */
-    public DirectoryManager(String directoryPath) {
-        this.directory = new File(directoryPath);
+    public DirectoryManager(String sourcePath) {
+        this.directory = new File(sourcePath);
     }
 
     /**
      *
-     * @param extensions
+     * @param validFileExtensions
      * @return List<String>
      * @throws DirectoryEmptyException
      */
-    public List<String> filterByExtension(String[] extensions) throws DirectoryEmptyException {
+    public List<String> filterByExtension(String[] validFileExtensions) throws DirectoryEmptyException {
         String[] files = this.directory.list();
 
         if (null == files) {
@@ -37,10 +38,10 @@ public class DirectoryManager {
         List<String> images = new ArrayList<String>();
 
         //Paths for each image are written into ArrayList
-        for (String filePath : files) {
-            for (String ending : extensions) {
-                if (filePath.endsWith(ending)) {
-                    images.add(filePath);
+        for (String fileName : files) {
+            for (String extension : validFileExtensions) {
+                if (fileName.endsWith(extension)) {
+                    images.add(fileName);
                     break;
                 }
             }

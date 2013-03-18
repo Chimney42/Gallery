@@ -1,11 +1,11 @@
-package gallery; /**
+package gallery;
+/**
  * Author: lian
  * Date: 3/10/13
  */
 
 import gallery.exception.DirectoryEmptyException;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -14,57 +14,52 @@ public class Main {
     public static void main(String[] args) {
 
         // Get image path by user input
-        String imagePath = getImagePath();
+        String sourcePath = getSourcePath();
 
         //define file extensions
-        String[] extensions = new String[] {"jpg", "png", "gif"};
+        String[] validFileExtensions = new String[] {"jpg", "png", "gif"};
 
-        List<String> images = getDirectoryFiles(imagePath, extensions);
-
-        String[] imagePaths =  new String[images.size()];
-        for (int i = 0; i < images.size(); i++) {
-            imagePaths[i] = images.get(i);
-        }
+        List<String> imageNames = getValidFilesFromDirectory(sourcePath, validFileExtensions);
 
         HTMLPageFactory factory = new HTMLPageFactory();
-        factory.createHTMLPage(imagePaths, imagePath);
+        factory.createHTMLPage(imageNames, sourcePath);
     }
 
     /**
      * @return String
      */
-    private static String getImagePath() {
+    private static String getSourcePath() {
         System.out.println("Please enter your image path");
         Scanner scanner = new Scanner(System.in);
-        String imagePath = scanner.next();
+        String sourcePath = scanner.next();
 
         //default path
-        if (imagePath.isEmpty()) {
-            imagePath = "~/htdocs/myfoto";
+        if (sourcePath.isEmpty()) {
+            sourcePath = "C:/htdocs/myfoto";
         }
-        return imagePath;
+        return sourcePath;
     }
 
     /**
      *
-     * @param imagePath
+     * @param sourcePath
      * @param extensions
      * @return List<String>
      */
-    private static List<String> getDirectoryFiles(String imagePath, String[] extensions) {
-        List<String> images;
+    private static List<String> getValidFilesFromDirectory(String sourcePath, String[] extensions) {
+        List<String> imageNames;
         try {
-            DirectoryManager manager = new DirectoryManager(imagePath);
-            images = manager.filterByExtension(extensions);
+            DirectoryManager manager = new DirectoryManager(sourcePath);
+            imageNames = manager.filterByExtension(extensions);
         }
         catch (DirectoryEmptyException e) {
             e.getMessage();
             System.out.println("Please try another path");
-            String newImagePath = getImagePath();
+            String newSourcePath = getSourcePath();
             // recursive call
-            images = getDirectoryFiles(newImagePath, extensions);
+            imageNames = getValidFilesFromDirectory(newSourcePath, extensions);
         }
-        return images;
+        return imageNames;
 
     }
 }

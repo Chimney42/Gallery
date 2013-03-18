@@ -1,10 +1,8 @@
 package gallery;
 
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
 
 /**
  * Author: lian
@@ -50,8 +48,8 @@ public class HTMLPage {
     }
 
     //build image tags for image
-    public void setImage(String imagePath) {
-        this.image = "<img src='../" + imagePath + "'></img>";
+    public void setImage(String imageName) {
+        this.image = "<img src='../" + imageName + "'></img>";
     }
 
     protected void render(String path) {
