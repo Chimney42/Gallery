@@ -24,11 +24,12 @@ public class DirectoryManager {
 
     /**
      *
+     *
      * @param validFileExtensions
      * @return List<String>
      * @throws DirectoryEmptyException
      */
-    public List<String> filterByExtension(String[] validFileExtensions) throws DirectoryEmptyException {
+    public List<String> filterByExtension(List<String> validFileExtensions) throws DirectoryEmptyException {
         String[] files = this.directory.list();
 
         if (null == files) {
@@ -38,12 +39,14 @@ public class DirectoryManager {
         List<String> images = new ArrayList<String>();
 
         //Paths for each image are written into ArrayList
-        for (String fileName : files) {
-            for (String extension : validFileExtensions) {
-                if (fileName.endsWith(extension)) {
-                    images.add(fileName);
-                    break;
-                }
+        for (String filePath : files) {
+            //get file extension
+            String extension = filePath.substring(filePath.lastIndexOf('.') + 1);
+
+            //lookup in valid extensions
+            if (validFileExtensions.contains(extension)) {
+                images.add(filePath);
+                break;
             }
         }
         return images;

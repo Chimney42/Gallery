@@ -6,6 +6,7 @@ package gallery;
 
 import gallery.exception.DirectoryEmptyException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -17,7 +18,10 @@ public class Main {
         String sourcePath = getSourcePath();
 
         //define file extensions
-        String[] validFileExtensions = new String[] {"jpg", "png", "gif"};
+        List<String> validFileExtensions = new ArrayList<String>();
+        validFileExtensions.add("jpg");
+        validFileExtensions.add("gif");
+        validFileExtensions.add("png");
 
         List<String> imageNames = getValidFilesFromDirectory(sourcePath, validFileExtensions);
 
@@ -46,7 +50,7 @@ public class Main {
      * @param extensions
      * @return List<String>
      */
-    private static List<String> getValidFilesFromDirectory(String sourcePath, String[] extensions) {
+    private static List<String> getValidFilesFromDirectory(String sourcePath, List<String> extensions) {
         List<String> imageNames;
         try {
             DirectoryManager manager = new DirectoryManager(sourcePath);
