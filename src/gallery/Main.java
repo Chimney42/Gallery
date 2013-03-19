@@ -24,9 +24,12 @@ public class Main {
         validFileExtensions.add("gif");
         validFileExtensions.add("png");
 
-        List<File> images = getValidFilesFromDirectory(directoryManager, validFileExtensions);
+        //setup destination folder
         String destinationPath = directoryManager.createDestinationFolder();
+        List<File> images = directoryManager.filterByExtension(validFileExtensions);
         directoryManager.copyFilesToDestinationFolder(images);
+
+        //create HTML files
         HTMLPageFactory factory = new HTMLPageFactory(destinationPath);
         factory.createHTMLPagesFromList(images);
     }
@@ -53,17 +56,5 @@ public class Main {
         String sourcePath = scanner.next();
 
         return sourcePath;
-    }
-
-    /**
-     *
-     * @param manager
-     * @param extensions
-     * @return List<String>
-     */
-    private static List<File> getValidFilesFromDirectory(DirectoryManager manager, List<String> extensions) {
-        List<File> images = manager.filterByExtension(extensions);
-        return images;
-
     }
 }

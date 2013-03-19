@@ -47,7 +47,7 @@ public class HTMLPageFactory {
         try {
             //create HTML file
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(this.destinationPath + page.getPageName() + ".html"));
-            //insert markup
+            //insert content
             bufferedWriter.write(page.getHtml());
             //close buffer
             bufferedWriter.close();

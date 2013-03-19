@@ -21,9 +21,12 @@ public class DirectoryManager {
      * @param sourcePath
      */
     public void setDirectory(String sourcePath) throws InvalidDirectoryException {
-        this.directory = new File(sourcePath);
-        if (!this.directory.isDirectory()) {
+        File directory = new File(sourcePath);
+
+        if (!directory.isDirectory()) {
             throw new InvalidDirectoryException();
+        } else {
+            this.directory = directory;
         }
     }
 
@@ -53,7 +56,7 @@ public class DirectoryManager {
 
     public String createDestinationFolder() {
         //create new folder in imagePath "mypage"
-        setDestinationPath("C:\\htdocs\\myfoto\\");
+        this.setDestinationPath("C:\\htdocs\\myfoto\\");
         new File(this.destinationPath).mkdir();
 
         return this.destinationPath;
@@ -66,7 +69,6 @@ public class DirectoryManager {
     public void copyFilesToDestinationFolder(List<File> files) {
         for (int i = 0; i < files.size(); i++) {
             try {
-                String p = files.get(i).getCanonicalPath();
                 Files.copy(files.get(i).toPath(), new File(this.destinationPath + files.get(i).getName()).toPath());
             } catch (IOException e) {
                 System.out.println(e.getMessage() + " could not be copied");
