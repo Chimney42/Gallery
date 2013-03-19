@@ -12,7 +12,7 @@ import java.util.List;
 
 public class DirectoryManager {
 
-    File directory;
+    private File directory;
 
     /**
      * construct with absolute system name
@@ -23,8 +23,6 @@ public class DirectoryManager {
     }
 
     /**
-     *
-     *
      * @param validFileExtensions
      * @return List<String>
      * @throws DirectoryEmptyException
@@ -46,9 +44,16 @@ public class DirectoryManager {
             //lookup in valid extensions
             if (validFileExtensions.contains(extension)) {
                 images.add(filePath);
-                break;
             }
         }
         return images;
+    }
+
+    public String createDestinationFolder() {
+        //create new folder in imagePath "mypage"
+        String destinationPath = this.directory.getAbsolutePath() + "/mypage/";
+        new File(destinationPath).mkdir();
+
+        return destinationPath;
     }
 }

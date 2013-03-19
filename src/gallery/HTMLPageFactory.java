@@ -1,9 +1,6 @@
 package gallery;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
 
 /**
@@ -12,37 +9,30 @@ import java.util.List;
  */
 public class HTMLPageFactory {
 
-    private String sourcePath;
     private String destinationPath;
 
-    public HTMLPageFactory(String sourcePath) {
+    public HTMLPageFactory(String destinationPath) {
         super();
-        this.setSourcePath(sourcePath);
+        this.setDestinationPath(destinationPath);
     }
 
-    public void setSourcePath(String sourcePath) {
-        this.sourcePath = sourcePath;
-    }
-
-    public void createDestinationFolder() {
-        //create new folder in imagePath "mypage"
-        this.destinationPath = this.sourcePath + "/mypage";
-        new File(this.destinationPath).mkdir();
+    public void setDestinationPath(String sourcePath) {
+        this.destinationPath = sourcePath;
     }
 
     public void createHTMLPagesFromList(List<String> imageNames) {
         for (int i = 0; i <imageNames.size(); i++) {
-            HTMLPage page = this.createHTMLPageWithName("image " + (i + 1));
+            HTMLPage page = this.createHTMLPageWithName("image" + (i+1));
             page.setImage(imageNames.get(i));
 
             //not on first iteration
             if(0 != i) {
-                page.setLastPage("image " + (i));
+                page.setLastPage("image" + (i));
             }
 
             //not on last iteration
             if((imageNames.size() - 1) != i) {
-                page.setNextPage("image " + (i+2));
+                page.setNextPage("image" + (i+2));
             }
 
             //assemble html

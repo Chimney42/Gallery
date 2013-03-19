@@ -16,6 +16,7 @@ public class Main {
 
         // Get image path by user input
         String sourcePath = getSourcePath();
+        DirectoryManager directoryManager = new DirectoryManager(sourcePath);
 
         //define file extensions
         List<String> validFileExtensions = new ArrayList<String>();
@@ -23,10 +24,10 @@ public class Main {
         validFileExtensions.add("gif");
         validFileExtensions.add("png");
 
-        List<String> imageNames = getValidFilesFromDirectory(sourcePath, validFileExtensions);
+        List<String> imageNames = getValidFilesFromDirectory(directoryManager, validFileExtensions);
 
-        HTMLPageFactory factory = new HTMLPageFactory(sourcePath);
-        factory.createDestinationFolder();
+        String destinationPath = directoryManager.createDestinationFolder();
+        HTMLPageFactory factory = new HTMLPageFactory(destinationPath);
         factory.createHTMLPagesFromList(imageNames);
     }
 
@@ -40,29 +41,28 @@ public class Main {
 
         //default path
         if (sourcePath.isEmpty()) {
-            sourcePath = "C:/htdocs/myfoto";
+            sourcePath = "../../htdocs/myfoto";
         }
         return sourcePath;
     }
 
     /**
      *
-     * @param sourcePath
+     * @param manager
      * @param extensions
      * @return List<String>
      */
-    private static List<String> getValidFilesFromDirectory(String sourcePath, List<String> extensions) {
+    private static List<String> getValidFilesFromDirectory(DirectoryManager manager, List<String> extensions) {
         List<String> imageNames;
         try {
-            DirectoryManager manager = new DirectoryManager(sourcePath);
             imageNames = manager.filterByExtension(extensions);
         }
         catch (DirectoryEmptyException e) {
-            e.getMessage();
+            System.out.println(e.getMessage());
             System.out.println("Please try another path");
             String newSourcePath = getSourcePath();
             // recursive call
-            imageNames = getValidFilesFromDirectory(newSourcePath, extensions);
+            imageNames = getValidFilesFromDirectory(new DirectoryManager(newSourcePath), extensions);
         }
         return imageNames;
 
