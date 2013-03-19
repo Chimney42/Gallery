@@ -1,6 +1,9 @@
 package gallery;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -9,30 +12,68 @@ import java.util.List;
  */
 public class HTMLPageFactory {
 
-    public void createHTMLPage(List<String> imageNames, String path) {
-        //create new folder in imagePath "mypage"
-        new File(path + "/mypage").mkdir();
+    private String sourcePath;
+    private String destinationPath;
 
-        //for each image
-        for(int i = 0; i < imageNames.size(); i++) {
-            HTMLPage page = new HTMLPage();
-            //create generic names
-            page.setPageName("image " + (i+1));
+    public HTMLPageFactory(String sourcePath) {
+        super();
+        this.setSourcePath(sourcePath);
+    }
+
+    public void setSourcePath(String sourcePath) {
+        this.sourcePath = sourcePath;
+    }
+
+    public void createDestinationFolder() {
+        //create new folder in imagePath "mypage"
+        this.destinationPath = this.sourcePath + "/mypage";
+        new File(this.destinationPath).mkdir();
+    }
+
+    public void createHTMLPagesFromList(List<String> imageNames) {
+        for (int i = 0; i <imageNames.size(); i++) {
+            HTMLPage page = this.createHTMLPageWithName("image " + (i + 1));
+            page.setImage(imageNames.get(i));
 
             //not on first iteration
             if(0 != i) {
                 page.setLastPage("image " + (i));
             }
 
-            page.setImage(imageNames.get(i));
-
             //not on last iteration
             if((imageNames.size() - 1) != i) {
                 page.setNextPage("image " + (i+2));
             }
 
-            //create HTML pages in above created folder
-            page.render(path + "/mypage/");
+            //assemble html
+            page.build();
+
+            //physically create file on harddrive
+            this.render(page);
         }
+    }
+
+    private void render(HTMLPage page) {
+        try {
+            //create HTML file
+            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(this.destinationPath + page.getPageName() + ".html"));
+            //insert markup
+            bufferedWriter.write(page.getHtml());
+            //close buffer
+            bufferedWriter.close();
+        } catch (IOException e) {
+            e.getMessage();
+            System.out.println(page.getPageName() + ".html could not be created");
+        }
+
+
+    }
+
+    private HTMLPage createHTMLPageWithName(String name) {
+        HTMLPage page = new HTMLPage();
+        //create generic names
+        page.setPageName(name);
+
+        return page;
     }
 }

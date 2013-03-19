@@ -25,8 +25,9 @@ public class Main {
 
         List<String> imageNames = getValidFilesFromDirectory(sourcePath, validFileExtensions);
 
-        HTMLPageFactory factory = new HTMLPageFactory();
-        factory.createHTMLPage(imageNames, sourcePath);
+        HTMLPageFactory factory = new HTMLPageFactory(sourcePath);
+        factory.createDestinationFolder();
+        factory.createHTMLPagesFromList(imageNames);
     }
 
     /**

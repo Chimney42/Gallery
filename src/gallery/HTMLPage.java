@@ -1,9 +1,5 @@
 package gallery;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-
 /**
  * Author: lian
  * Date: 3/10/13
@@ -52,9 +48,15 @@ public class HTMLPage {
         this.image = "<img src='../" + imageName + "'></img>";
     }
 
-    protected void render(String path) {
-        //replace placeholders with built elements
+    public String getPageName() {
+        return this.pageName;
+    }
 
+    public String getHtml() {
+        return this.html;
+    }
+
+    public void build() {
         this.html = this.template.replaceAll("!!pageName!!", this.pageName);
 
         if(this.lastPage != null) {
@@ -70,19 +72,5 @@ public class HTMLPage {
         } else {
             this.html = this.html.replaceAll("!!nextPage!!", "");
         }
-        //
-
-        try {
-            //create HTML file
-            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(path + this.pageName + ".html"));
-            //insert markup
-            bufferedWriter.write(this.html);
-            //close buffer
-            bufferedWriter.close();
-        } catch (IOException e) {
-            e.getMessage();
-            System.out.println(this.pageName + ".html could not be created");
-        }
-
     }
 }
