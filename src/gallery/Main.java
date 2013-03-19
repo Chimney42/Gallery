@@ -4,8 +4,9 @@ package gallery;
  * Date: 3/10/13
  */
 
-import gallery.exception.DirectoryEmptyException;
+import gallery.exception.InvalidDirectoryException;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -15,8 +16,7 @@ public class Main {
     public static void main(String[] args) {
 
         // Get image path by user input
-        String sourcePath = getSourcePath();
-        DirectoryManager directoryManager = new DirectoryManager(sourcePath);
+        DirectoryManager directoryManager = getDirectoryManager();
 
         //define file extensions
         List<String> validFileExtensions = new ArrayList<String>();
@@ -24,25 +24,34 @@ public class Main {
         validFileExtensions.add("gif");
         validFileExtensions.add("png");
 
-        List<String> imageNames = getValidFilesFromDirectory(directoryManager, validFileExtensions);
-
+        List<File> images = getValidFilesFromDirectory(directoryManager, validFileExtensions);
         String destinationPath = directoryManager.createDestinationFolder();
+        directoryManager.copyFilesToDestinationFolder(images);
         HTMLPageFactory factory = new HTMLPageFactory(destinationPath);
-        factory.createHTMLPagesFromList(imageNames);
+        factory.createHTMLPagesFromList(images);
+    }
+
+    private static DirectoryManager getDirectoryManager() {
+
+        DirectoryManager directoryManager = new DirectoryManager();
+
+        try {
+            directoryManager.setDirectory(getSourcePath());
+        } catch (InvalidDirectoryException e) {
+            System.out.println(e.getMessage());
+            directoryManager = getDirectoryManager();
+        }
+        return directoryManager;
     }
 
     /**
      * @return String
      */
     private static String getSourcePath() {
-        System.out.println("Please enter your image path");
+        System.out.println("Please enter your image source path");
         Scanner scanner = new Scanner(System.in);
         String sourcePath = scanner.next();
 
-        //default path
-        if (sourcePath.isEmpty()) {
-            sourcePath = "../../htdocs/myfoto";
-        }
         return sourcePath;
     }
 
@@ -52,19 +61,9 @@ public class Main {
      * @param extensions
      * @return List<String>
      */
-    private static List<String> getValidFilesFromDirectory(DirectoryManager manager, List<String> extensions) {
-        List<String> imageNames;
-        try {
-            imageNames = manager.filterByExtension(extensions);
-        }
-        catch (DirectoryEmptyException e) {
-            System.out.println(e.getMessage());
-            System.out.println("Please try another path");
-            String newSourcePath = getSourcePath();
-            // recursive call
-            imageNames = getValidFilesFromDirectory(new DirectoryManager(newSourcePath), extensions);
-        }
-        return imageNames;
+    private static List<File> getValidFilesFromDirectory(DirectoryManager manager, List<String> extensions) {
+        List<File> images = manager.filterByExtension(extensions);
+        return images;
 
     }
 }

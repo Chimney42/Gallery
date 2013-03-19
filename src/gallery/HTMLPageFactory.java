@@ -12,7 +12,6 @@ public class HTMLPageFactory {
     private String destinationPath;
 
     public HTMLPageFactory(String destinationPath) {
-        super();
         this.setDestinationPath(destinationPath);
     }
 
@@ -20,10 +19,11 @@ public class HTMLPageFactory {
         this.destinationPath = sourcePath;
     }
 
-    public void createHTMLPagesFromList(List<String> imageNames) {
-        for (int i = 0; i <imageNames.size(); i++) {
+    public void createHTMLPagesFromList(List<File> images) {
+        for (int i = 0; i <images.size(); i++) {
             HTMLPage page = this.createHTMLPageWithName("image" + (i+1));
-            page.setImage(imageNames.get(i));
+
+            page.setImage(images.get(i).getName());
 
             //not on first iteration
             if(0 != i) {
@@ -31,19 +31,19 @@ public class HTMLPageFactory {
             }
 
             //not on last iteration
-            if((imageNames.size() - 1) != i) {
+            if((images.size() - 1) != i) {
                 page.setNextPage("image" + (i+2));
             }
 
             //assemble html
-            page.build();
+            page.render();
 
             //physically create file on harddrive
-            this.render(page);
+            this.writeFile(page);
         }
     }
 
-    private void render(HTMLPage page) {
+    private void writeFile(HTMLPage page) {
         try {
             //create HTML file
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(this.destinationPath + page.getPageName() + ".html"));
@@ -52,7 +52,7 @@ public class HTMLPageFactory {
             //close buffer
             bufferedWriter.close();
         } catch (IOException e) {
-            e.getMessage();
+            System.out.println(e.getMessage());
             System.out.println(page.getPageName() + ".html could not be created");
         }
 

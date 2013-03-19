@@ -45,7 +45,7 @@ public class HTMLPage {
 
     //build image tags for image
     public void setImage(String imageName) {
-        this.image = "<img src='../" + imageName + "'></img>";
+        this.image = "<img src='" + imageName + "'></img>";
     }
 
     public String getPageName() {
@@ -56,7 +56,7 @@ public class HTMLPage {
         return this.html;
     }
 
-    public void build() {
+    public void render() {
         this.html = this.template.replaceAll("!!pageName!!", this.pageName);
 
         if(this.lastPage != null) {
