@@ -4,14 +4,12 @@ package gallery;
  * Date: 3/10/13
  */
 
-import gallery.exception.InvalidDirectoryException;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Main {
+public class Start {
 
     public static void main(String[] args) {
 

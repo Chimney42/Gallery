@@ -4,8 +4,6 @@ package gallery;
  * Date: 3/10/13
  */
 
-import gallery.exception.InvalidDirectoryException;
-
 import java.io.*;
 import java.nio.file.*;
 import java.util.ArrayList;
@@ -33,7 +31,7 @@ public class DirectoryManager {
     /**
      * @param validFileExtensions
      * @return List<String>
-     * @throws gallery.exception.InvalidDirectoryException
+     * @throws InvalidDirectoryException
      */
     public List<File> filterByExtension(List<String> validFileExtensions) {
         File[] files = this.directory.listFiles();

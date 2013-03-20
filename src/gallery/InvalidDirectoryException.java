@@ -1,4 +1,4 @@
-package gallery.exception;
+package gallery;
 
 /**
  * Author: lian
